@@ -3,11 +3,12 @@ import pickle
 import faiss
 import numpy as np
 from sentence_transformers import SentenceTransformer
+import os
 
 app = Flask(__name__)
 
 # Load model and files
-model = SentenceTransformer("all-MiniLM-L6-v2")  # lightweight and free
+model = SentenceTransformer("all-MiniLM-L6-v2")
 with open("university_combined_chunks.pkl", "rb") as f:
     chunks = pickle.load(f)
 
@@ -27,4 +28,5 @@ def home():
     return "Flask server is running!"
 
 if __name__ == "__main__":
-    app.run(port=5000)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
